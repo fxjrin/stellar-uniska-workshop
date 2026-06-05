@@ -59,8 +59,11 @@ We envision a future where digital information is truly personal and sovereign, 
 
 ## Contract Details
 
-- Contract Address: CAD4HUNGVAMZLQ4JOR3HFLDSWVZRGOBEJGPBCO2EEU6PEFOITQ4EE4D2
-  ![alt text](smartcontract.png)
+| Network | Contract ID |
+|---|---|
+| Mainnet | `CBOXUHO7WVFINZ472NPHOK6I5DHEYC3HH5MMAOZQJVVW43IGS5VYR5CV` |
+
+![alt text](smartcontract.png)
 
 ## Future Scope
 
@@ -101,17 +104,47 @@ We envision a future where digital information is truly personal and sovereign, 
 
 ## Technical Requirements
 
-- Soroban SDK
-- Rust programming language
-- Stellar blockchain network
+- Rust + Soroban SDK (smart contract)
+- Node.js >= 20 (frontend)
+- Stellar CLI v26+
+
+## Project Structure
+
+```
+stellar-uniska-workshop/
+  notes/        - Soroban smart contract (Rust)
+  frontend/     - React frontend (Vite + stellar-contracts-kit)
+  hello/        - Hello world contract (reference)
+```
 
 ## Getting Started
 
-Deploy the smart contract to Stellar's Soroban network and interact with it using the three main functions:
+### Smart Contract
 
-- `create_note()` - Create a new note with a title and content
-- `get_notes()` - Retrieve all stored notes from the contract
-- `delete_note()` - Remove a specific note by its ID
+```sh
+cd notes
+stellar contract build
+stellar contract deploy \
+  --wasm target/wasm32v1-none/release/hello_world.wasm \
+  --source <identity> \
+  --network mainnet
+```
+
+Fungsi kontrak:
+
+- `create_note(title, content)` - Buat note baru
+- `get_notes()` - Ambil semua note
+- `delete_note(id)` - Hapus note berdasarkan ID
+
+### Frontend
+
+```sh
+cd frontend
+npm install
+npm run dev
+```
+
+Lihat `frontend/MEET_3.md` untuk panduan lengkap perubahan dan deploy ke Vercel.
 
 ---
 

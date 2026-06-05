@@ -95,7 +95,7 @@ export default function App() {
         <div className="header-left">
           <span className="logo">&#9679;</span>
           <h1 className="brand">Web3 Notes</h1>
-          <span className="network-badge">Testnet</span>
+          <span className="network-badge">Mainnet</span>
         </div>
         <div className="header-right">
           {address ? (
