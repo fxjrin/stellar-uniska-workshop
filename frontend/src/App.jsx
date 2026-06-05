@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback } from 'react'
 import { StellarContractsKit } from 'stellar-contracts-kit'
 import { CONTRACT_ID } from '../contracts/notes.js'
-import { CONTRACT_ID as HELLO_CONTRACT_ID } from '../contracts/hello.js'
 import './App.css'
 
-// const CONTRACT_ID = 'CDERI5KIEWKO3MMZDPUFWYDDH4JTUXYSX2SBYMVYBSZUTT25W7TXVHCU' // Replace with your deployed contract ID
-const kit = new StellarContractsKit({ network: 'testnet' })
+// const CONTRACT_ID = 'CBOXUHO7WVFINZ472NPHOK6I5DHEYC3HH5MMAOZQJVVW43IGS5VYR5CV' // Replace with your deployed contract ID
+const kit = new StellarContractsKit({ network: 'mainnet' })
 
 export default function App() {
   const [address, setAddress] = useState(null)
@@ -17,10 +16,6 @@ export default function App() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [txHash, setTxHash] = useState(null)
-  const [helloInput, setHelloInput] = useState('')
-  const [helloResult, setHelloResult] = useState(null)
-  const [helloLoading, setHelloLoading] = useState(false)
-
   const clearError = () => setError(null)
 
   const fetchNotes = useCallback(async () => {
@@ -85,22 +80,6 @@ export default function App() {
       setError('Failed to delete note: ' + err.message)
     } finally {
       setDeletingId(null)
-    }
-  }
-
-  const handleHello = async (e) => {
-    e.preventDefault()
-    setHelloLoading(true)
-    setError(null)
-    setHelloResult(null)
-    try {
-      const contract = await kit.contract(HELLO_CONTRACT_ID)
-      const { result } = await contract.hello.invoke(helloInput.trim())
-      setHelloResult(result)
-    } catch (err) {
-      setError('Hello failed: ' + err.message)
-    } finally {
-      setHelloLoading(false)
     }
   }
 
@@ -192,35 +171,6 @@ export default function App() {
                   {creating ? 'Publishing…' : 'Publish Note'}
                 </button>
               </form>
-            </section>
-
-            <section className="hello-section">
-              <h2 className="section-title">Hello World</h2>
-              <form className="hello-form" onSubmit={handleHello}>
-                <div className="hello-row">
-                  <input
-                    className="input"
-                    type="text"
-                    placeholder="Enter your name…"
-                    value={helloInput}
-                    onChange={(e) => setHelloInput(e.target.value)}
-                    disabled={helloLoading}
-                  />
-                  <button
-                    className="btn btn-primary"
-                    type="submit"
-                    disabled={helloLoading || !helloInput.trim()}
-                  >
-                    {helloLoading ? <span className="spinner" /> : null}
-                    {helloLoading ? 'Calling…' : 'Say Hello'}
-                  </button>
-                </div>
-              </form>
-              {helloResult && (
-                <div className="hello-result">
-                  {helloResult.join(' ')}
-                </div>
-              )}
             </section>
 
             <section className="notes-section">
